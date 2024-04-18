@@ -15,12 +15,14 @@ from DataUtils import getTokens,modelfile_path,vectorfile_path
 #从文件中获取数据集
 def getDataFromFile(filename='data/data.csv'):
     input_url = filename
-    data_csv = pd.read_csv(input_url, ',', error_bad_lines=False)
-    data_df = pd.DataFrame(data_csv)
-    url_df = np.array(data_df)
-    random.shuffle(url_df)
-    y = [d[1] for d in url_df]
-    inputurls = [d[0] for d in url_df]
+    data_csv = pd.read_csv(input_url, ',', error_bad_lines=False) #读取csv表格数据
+    # print(data_csv)
+    data_df = pd.DataFrame(data_csv) #将表格数据转换成DataFrame对象数据
+    url_df = np.array(data_df) #将DF对象转换成NumPy数组
+    # print(url_df)
+    random.shuffle(url_df) #打乱数组顺序
+    y = [d[1] for d in url_df] #取出每行第二个元素label
+    inputurls = [d[0] for d in url_df] #取出每行第一个元素url
     return inputurls,y
 
 
