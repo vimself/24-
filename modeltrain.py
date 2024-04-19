@@ -11,6 +11,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn import svm
 from DataUtils import getTokens,modelfile_path,vectorfile_path
+from sklearn.metrics import classification_report
 
 #从文件中获取数据集
 def getDataFromFile(filename='data/data.csv'):
@@ -28,14 +29,15 @@ def getDataFromFile(filename='data/data.csv'):
 
 #训练,通过逻辑回归模型训练
 def trainLR(datapath):
-    all_urls,y=getDataFromFile(datapath)
+    all_urls,y = getDataFromFile(datapath)
     url_vectorizer = TfidfVectorizer(tokenizer=getTokens)
     x = url_vectorizer.fit_transform(all_urls)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-    l_regress = LogisticRegression()                  # Logistic regression
-    l_regress.fit(x_train, y_train)
+    l_regress = LogisticRegression()  # 实例化 Logistic regression
+    l_regress.fit(x_train, y_train)   # 训练模型
     l_score = l_regress.score(x_test, y_test)
     print("score: {0:.2f} %".format(100 * l_score))
+    print(classification_report(y_test,l_regress.predict(x_test)))
     return l_regress,url_vectorizer
 
 #训练，通过SVM支持向量机模型训练
@@ -50,12 +52,12 @@ def trainSVM(datapath):
     print("score: {0:.2f} %".format(100 * svm_score))
     return svmModel,url_vectorizer
 
-#保存模型及特征
+#保存模型及特征 序列化
 def saveModel(model,vector):
     #保存模型
     file1 = modelfile_path
-    with open(file1, 'wb') as f:
-        pickle.dump(model, f)
+    with open(file1, 'wb') as f: #打开一个文件 file1 用于写入（'w'），并以二进制模式（'b'）打开
+        pickle.dump(model, f) #使用 pickle 模块的 dump 函数将模型对象 model 序列化并写入文件对象 f 中
     f.close()
     #保存特征
     file2 = vectorfile_path
@@ -64,6 +66,6 @@ def saveModel(model,vector):
     f2.close()
 
 if __name__ == '__main__':
-    #model,vector=trainLR('data/data.csv')
-    model, vector = trainSVM('data/data.csv')
+    model,vector=trainLR('data/data.csv')
+    #model, vector = trainSVM('data/data.csv')
     saveModel(model,vector)
