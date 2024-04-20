@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URLs Processor</title>
+
+{#    <script src="{{ url_for('static', filename='vue.min.js') }}"></script>#}
+{#    <script src="{{ url_for('static', filename='vue-resource.min.js') }}"></script>#}
+{#    <script src="{{ url_for('static', filename='index.js') }}"></script>#}
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">#}
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+
+
+</head>
+<body>
+    <div id="app">
+        <form @submit.prevent="processURLs">
+            <label for="urls">Enter URLs (comma separated):</label>
+            <input type="text" id="urls" v-model="urls" placeholder="https://example.com, https://example.org">
+            {#通过 v-model 指令将输入的值绑定到 Vue 实例的 urls 属性上#}
+            <button type="submit">Process</button>
+        </form>
+        <div v-if="processedData">
+            <h2 v-if="processedData.good">Good URLs:<span v-text="processedData.good"></span></h2>
+            <h2 v-if="processedData.bad">Bad URLs:<span v-text="processedData.bad"></span></h2>
+        </div>
+
+
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                urls: '',
+                processedData: null,
+            },
+            methods: {
+                processURLs() {
+                    this.$http.post('http://localhost:5000/process', { urls: this.urls.split(',') })
+                        .then(response => {
+                            this.processedData = response.body;
+                        }, error => {
+                            console.error(error);
+                        });
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
