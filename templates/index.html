@@ -2,39 +2,86 @@
 <html>
 <head>
     <title>URLs Processor</title>
-
-{#    <script src="{{ url_for('static', filename='vue.min.js') }}"></script>#}
-{#    <script src="{{ url_for('static', filename='vue-resource.min.js') }}"></script>#}
-{#    <script src="{{ url_for('static', filename='index.js') }}"></script>#}
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">#}
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
 
 
 </head>
 <body>
-    <div id="app">
-        <form @submit.prevent="processURLs">
-            <label for="urls">Enter URLs (comma separated):</label>
-            <input type="text" id="urls" v-model="urls" placeholder="https://example.com, https://example.org">
-            {#通过 v-model 指令将输入的值绑定到 Vue 实例的 urls 属性上#}
-            <button type="submit">Process</button>
-        </form>
-        <div v-if="processedData">
-            <h2 v-if="processedData.good">Good URLs:<span v-text="processedData.good"></span></h2>
-            <h2 v-if="processedData.bad">Bad URLs:<span v-text="processedData.bad"></span></h2>
-        </div>
+<!-- 顶部导航栏 -->
+		  <nav class="navbar navbar-default">
+		    <div class="container-fluid">
+		      <div class="navbar-header">
+		        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		        </button>
+		        <a class="navbar-brand" href="#" style="font-size: x-large">在线恶意url检测系统</a>
+		      </div>
+		      <div class="collapse navbar-collapse" id="myNavbar">
+		        <ul class="nav navbar-nav navbar-right">
+		          <!-- <li class="active"><a href="#">Home</a></li>
+		          <li><a href="#">About</a></li>
+		          <li><a href="#">Services</a></li>
+		          <li><a href="#">Contact</a></li> -->
+		        </ul>
+		      </div>
+		    </div>
+		  </nav>
 
+<!-- 表单 -->
+<div id="app">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-6 col-md-offset-3">
+		        <div class="form-container">
+		          <h2>检测URL</h2>
 
+                      <form @submit.prevent="processURLs">
+                          <label for="urls" style="margin-left: 12px;font-family: Consolas;font-size: 16px">Please Enter URLs :</label>
+                        <div class="form-group">
+                          <textarea id="urls" v-model="urls" class="form-control" rows="5" placeholder="Multiple urls, please enter new lines" style="font-family: Consolas"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
 
-    </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-12 col-md-offset-0">
+		        <div class="form-container">
+		          <h2>检测URL结果</h2>
+                    <div id="app">
+                        <div v-if="processedData">
+                            <h3 v-if="processedData.good">Good URLs:<span v-text="processedData.good"></span></h3>
+                            <h3 v-if="processedData.bad">Bad URLs:<span v-text="processedData.bad"></span></h3>
+		                </div>
+                    </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+     </div>
+
 
     <script>
         new Vue({
             el: '#app',
             data: {
                 urls: '',
-                processedData: null,
+                processedData: null
             },
             methods: {
                 processURLs() {
@@ -50,4 +97,51 @@
     </script>
 
 </body>
+
+<style>
+	       body {
+	         background-color: #f8f8f8;
+	         font-family: Arial, sans-serif;
+	       }
+	       .navbar {
+	         border-radius: 0;
+	         background-color: #55aaff;
+	         border: none;
+	       }
+	       .navbar-brand {
+	         color: #fc5531;
+	         font-weight: bold;
+	       }
+	       .navbar-nav > li > a {
+	         color: #fff;
+	       }
+	       .form-container {
+	         background-color: #fff;
+	         border-radius: 5px;
+	         box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+	         padding: 20px;
+	         margin-top: 50px;
+	       }
+	       .form-container h2 {
+	         color: #333;
+	         text-align: center;
+	         margin-bottom: 30px;
+	       }
+	       .form-group {
+	         margin-bottom: 20px;
+	       }
+	       .form-control {
+	         border-radius: 5px;
+	       }
+	       .btn-primary {
+	         background-color: #55aaff;
+	         border: none;
+	         border-radius: 5px;
+	         width: 100%;
+	       }
+	       .btn-primary:hover {
+	         background-color: #286090;
+	       }
+	     </style>
+
 </html>

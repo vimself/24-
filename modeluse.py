@@ -29,20 +29,6 @@ def loadModel():
 它告诉 Flask 在处理指定路径的 HTTP 请求时应该调用下面的函数
 在这个例子中，路径是 <path:path>，意味着它可以匹配任何路径，并将路径作为参数传递给下面的函数
 '''
-# @app.route('/<path:path>')
-# def show_predict(path):
-#     X_predict = []
-#     X_predict.append(path)
-#     model, vector = loadModel()
-#     x = vector.transform(X_predict)
-#     print(x)
-#     y_predict = model.predict(x)
-#     print(y_predict)
-#     print("-------------")
-#     return "url predict: "+str(y_predict[0])
-
-
-
 
 @app.route('/process', methods=['POST'])
 def submit_form():
