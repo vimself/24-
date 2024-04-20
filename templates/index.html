@@ -65,8 +65,8 @@
 		          <h2>检测URL结果</h2>
                     <div id="app">
                         <div v-if="processedData">
-                            <h3 v-if="processedData.good">Good URLs:<span v-text="processedData.good"></span></h3>
-                            <h3 v-if="processedData.bad">Bad URLs:<span v-text="processedData.bad"></span></h3>
+                            <h4 v-if="processedData.good">Good URLs:<li v-for="item in processedData.good" :key="item"><span v-text="item"></span></li></h4>
+                            <h4 v-if="processedData.bad">Bad URLs:<li v-for="item in processedData.bad" :key="item"><span v-text="item"></span></li></h4>
 		                </div>
                     </div>
 		        </div>

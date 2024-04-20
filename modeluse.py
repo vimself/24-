@@ -34,19 +34,27 @@ def loadModel():
 def submit_form():
     # 获取前端传来的urls参数
     data = request.json
-    urls = data.get('urls', [])
-    print(urls)
+    message = data.get('urls', [])
+    string = str(message[0])
+    urls = string.split("\n")
 
-    X_predict = urls
-    model, vector = loadModel()
-    x = vector.transform(X_predict)
-    y_predict = model.predict(x)
-    print(y_predict)
+    goods = []
+    bads = []
 
-    if y_predict == 'good':
-        processed_data = {'good': urls[0],'bad':''}
-    else:
-        processed_data = {'good': '','bad':urls[0]}
+    for i in range(0,len(urls),1):
+        X_predict = [urls[i]]
+        model, vector = loadModel()
+        x = vector.transform(X_predict)
+        y_predict = model.predict(x)
+        if y_predict[0] == 'good':
+            goods.append(urls[i])
+        else:
+            bads.append(urls[i])
+    print(goods)
+    print(bads)
+
+    processed_data = {'good': goods, 'bad': bads}
+    print(processed_data)
 
     # 将处理后的数据以JSON格式返回给前端
     return jsonify(processed_data)
