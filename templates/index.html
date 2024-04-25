@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
-    <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
-
+{#    <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>#}
+{#    <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
 </head>
 <body>
@@ -19,23 +19,27 @@
 		  <nav class="navbar navbar-default">
 		    <div class="container-fluid">
 		      <div class="navbar-header">
-		        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		          <span class="icon-bar"></span>
-		          <span class="icon-bar"></span>
-		          <span class="icon-bar"></span>
-		        </button>
-		        <a class="navbar-brand" href="#" style="font-size: x-large">在线恶意url检测系统</a>
+		        <a class="navbar-brand" href="#" style="font-size: x-large">在线恶意URL检测系统</a>
 		      </div>
 		      <div class="collapse navbar-collapse" id="myNavbar">
 		        <ul class="nav navbar-nav navbar-right">
-		          <!-- <li class="active"><a href="#">Home</a></li>
-		          <li><a href="#">About</a></li>
-		          <li><a href="#">Services</a></li>
-		          <li><a href="#">Contact</a></li> -->
+		          <li style="margin-right: 20px;" class="active"><a href="index.html">主页</a></li>
+		          <li style="margin-right: 20px;"><a href="getData.html">数据提取模块</a></li>
+				  <li style="margin-right: 20px;"><a href="dataAnalysis.html">数据分析模块</a></li>
+				  <li style="margin-right: 20px;"><a href="dataOutput.html">结果输出模块</a></li>
+				  <li style="margin-right: 20px;"><a href="modelAnalysis.html">模型数据分析</a></li>
+		          <li style="margin-right: 20px;"><a href="contact.html">联系我</a></li>
 		        </ul>
 		      </div>
 		    </div>
 		  </nav>
+
+
+<div class="container">
+	   <div class="row">
+			<h2 style="text-align: center;">Wecome to the Malicious URL Identification System</h2>
+	   </div>
+	 </div>
 
 <!-- 表单 -->
 <div id="app">
@@ -57,27 +61,26 @@
 		      </div>
 		    </div>
 		  </div>
-
-		  <div class="container">
-		    <div class="row">
-		      <div class="col-md-12 col-md-offset-0">
-		        <div class="form-container">
-		          <h2>检测URL结果</h2>
-                    <div id="app">
-                        <div v-if="processedData">
-                            <h4 v-if="processedData.good">Good URLs:<li v-for="item in processedData.good" :key="item"><span v-text="item"></span></li></h4>
-                            <h4 v-if="processedData.bad">Bad URLs:<li v-for="item in processedData.bad" :key="item"><span v-text="item"></span></li></h4>
-		                </div>
-                    </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
      </div>
 
+	 <div style="margin-bottom: 40px;" class="container">
+	   <div class="row">
+	     <div class="col-md-12 col-md-offset-0">
+	       <div class="form-container">
+				<h4>系统说明（System Description）</h4>
+				<hr />
+				<p>本系统主要用于恶意URL识别，底层分别基于逻辑回归模型和SVM支持向量机实现的自动化恶意URL识别，6w条数据集源自于绿盟waf日志系统，以及常用安全工具的payload。<br/>
+				请在上框中输入一个或一组（不同的URL请换行输入）完整的网址，点击Sumbit后，将对输入提交的URL进行识别，识别结果在结果输出模块展示。
+				</p>
+	       </div>
+	     </div>
+	   </div>
+	 </div>
 
+
+{#    <script src="{{ url_for('static', filename='js/vueProcess.js') }}"></script>#}
     <script>
-        new Vue({
+         var app = new Vue({
             el: '#app',
             data: {
                 urls: '',
