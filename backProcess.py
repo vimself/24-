@@ -9,6 +9,9 @@ CORS(app)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+goods = []
+bads = []
+
 #通过接口进行调用
 '''
 @app.route('/<path:path>') 是一个装饰器
@@ -21,11 +24,12 @@ def submit_form():
     # 获取前端传来的urls参数
     data = request.json
     message = data.get('urls', [])
+    print(message)
     string = str(message[0])
     urls = string.split("\n")
 
-    goods = []
-    bads = []
+    global goods
+    global bads
 
     for i in range(0,len(urls),1):
         X_predict = [urls[i]]
@@ -36,14 +40,13 @@ def submit_form():
             goods.append(urls[i])
         else:
             bads.append(urls[i])
-    print(goods)
-    print(bads)
 
-    processed_data = {'good': goods, 'bad': bads}
-    print(processed_data)
+    # processed_data = {'good': goods, 'bad': bads}
+    # print(processed_data)
 
     # 将处理后的数据以JSON格式返回给前端
-    return jsonify(processed_data)
+    # return jsonify(processed_data)
+    return 'true'
 
 
 @app.route('/upload', methods=['POST'])
@@ -61,6 +64,12 @@ def upload_file():
             print(file_content)
         return 'true'
 
+@app.route('/result', methods=['GET'])
+def get_result():
+    global goods
+    global bads
+    processed_data = {'good': goods, 'bad': bads}
+    return jsonify(processed_data)
 
 # 定义根路由，提供index.html页面
 @app.route('/')

@@ -50,6 +50,26 @@
 				      </div>
 				    </div>
 				  </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                processedData: null
+            },
+            created() {
+                // 在页面加载时从后端获取数据
+                this.$http.get('/result')
+                    .then(response => {
+                        this.processedData = response.body;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching result:', error);
+                    });
+            }
+        });
+    </script>
+
 	</body>
 	
 	<style>

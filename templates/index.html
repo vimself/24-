@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-{#    <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>#}
-{#    <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>#}
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+{#    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>#}
 
 </head>
 <body>
@@ -61,12 +61,18 @@
 		      </div>
 		    </div>
 		  </div>
-     </div>
+
 
 	 <div style="margin-bottom: 40px;" class="container">
 	   <div class="row">
 	     <div class="col-md-12 col-md-offset-0">
 	       <div class="form-container">
+                <div v-show="processedData == 'true'">
+                    <h4 align="center">
+                        请在结果输出模块查看url检测结果
+                    </h4>
+                    <hr />
+                </div>
 				<h4>系统说明（System Description）</h4>
 				<hr />
 				<p>本系统主要用于恶意URL识别，底层分别基于逻辑回归模型和SVM支持向量机实现的自动化恶意URL识别，6w条数据集源自于绿盟waf日志系统，以及常用安全工具的payload。<br/>
@@ -76,9 +82,8 @@
 	     </div>
 	   </div>
 	 </div>
+</div>
 
-
-{#    <script src="{{ url_for('static', filename='js/vueProcess.js') }}"></script>#}
     <script>
          var app = new Vue({
             el: '#app',
