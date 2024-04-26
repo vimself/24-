@@ -11,6 +11,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 goods = []
 bads = []
+filename = ''
+is_upload = False
 
 #通过接口进行调用
 '''
@@ -51,6 +53,8 @@ def submit_form():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    global filename
+    global is_upload
     if 'file' not in request.files:
         return 'false'
     file = request.files['file']
@@ -59,15 +63,31 @@ def upload_file():
     if file:
         filename = file.filename
         file.save(os.path.join("data", filename))
-        with open(os.path.join("data", filename), 'r') as f:
-            file_content = f.read()
-            print(file_content)
+        is_upload = True
         return 'true'
 
 @app.route('/result', methods=['GET'])
 def get_result():
     global goods
     global bads
+    global filename
+    global is_upload
+
+    if is_upload:
+        is_upload = False
+        with open(os.path.join("data", filename), 'r') as f:
+            file_content = f.read()
+            urls = file_content.split('\n')
+            for i in range(0, len(urls), 1):
+                X_predict = [urls[i]]
+                model, vector = loadModel()
+                x = vector.transform(X_predict)
+                y_predict = model.predict(x)
+                if y_predict[0] == 'good':
+                    goods.append(urls[i])
+                else:
+                    bads.append(urls[i])
+
     processed_data = {'good': goods, 'bad': bads}
     return jsonify(processed_data)
 
