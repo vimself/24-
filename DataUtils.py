@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 """
     数据处理
+    洗词,分词
 """
 import os
 basedir=os.path.abspath(os.path.dirname(__file__)) #获取该脚本所在目录的绝对路径
 model_path=os.path.join(basedir,'model') #构建一个model子目录的路径
 modelfile_path=os.path.join(model_path,'model.pkl') #在model子目录下创建model.pkl文件
 vectorfile_path=os.path.join(model_path,'vector.pkl') #在model子目录下创建vector.pkl文件
+
 # 分词
 def getTokens(input):
     web_url = input.lower() #字符串转小写
     urltoken = []
     dot_slash = []
+    i
     slash = str(web_url).split('/')
     for i in slash:
         r1 = str(i).split('-')
@@ -26,5 +29,9 @@ def getTokens(input):
         urltoken.remove('com')
     if 'cn' in urltoken:
         urltoken.remove('cn')
+    if 'example' in urltoken:
+        urltoken.remove('example')
+    if 'www' in urltoken:
+        urltoken.remove('www')
     #去除com cn 等无影响字符串
     return urltoken

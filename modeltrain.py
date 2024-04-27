@@ -71,6 +71,6 @@ def saveModel(model,vector):
     f2.close()
 
 if __name__ == '__main__':
-    model,vector=trainLR('data/data.csv')
-    #model, vector = trainSVM('data/data.csv')
+    # model,vector=trainLR('data/data.csv')
+    model, vector = trainSVM('data/data.csv')
     saveModel(model,vector)
