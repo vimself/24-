@@ -12,6 +12,8 @@
 		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 		<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
 		<script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>  </head>
+
 	</head>
 	<body>
 		<!-- 顶部导航栏 -->
@@ -32,6 +34,57 @@
 				      </div>
 				    </div>
 				  </nav>
+
+        <div id="app">
+            <div id="chart2" style="width: 600px; height: 400px;"></div>
+
+
+        </div>
+
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    chartData: {}
+                },
+                created() {
+                    this.getData();
+                },
+                methods: {
+                    get_Data() {
+                        fetch('/get_data')
+                            .then(response => response.json())
+                            .then(data => {
+                                this.chartData = data;
+                                this.drawChart();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    },
+                    drawChart() {
+                        let chart = echarts.init(document.getElementById('chart2'));
+                        let options = {
+                            title: {
+                                text: '高危敏感词出现次数对比图'
+                            },
+                            tooltip: {},
+                            xAxis: {
+                                data: Object.keys(this.chartData)
+                            },
+                            yAxis: {},
+                            series: [{
+                                name: '出现次数',
+                                type: 'bar',
+                                data: Object.values(this.chartData)
+                            }]
+                        };
+                        chart.setOption(options);
+                    }
+                }
+            });
+        </script>
 	</body>
 	
 	<style>

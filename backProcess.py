@@ -1,4 +1,5 @@
 from modeluse import *
+from DataUtils import *
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
@@ -73,18 +74,6 @@ def upload_file():
     if file:
         filename = file.filename
         file.save(os.path.join("data", filename))
-        is_upload = True
-        return 'true'
-
-@app.route('/result', methods=['GET'])
-def get_result():
-    global goods
-    global bads
-    global filename
-    global is_upload
-
-    if is_upload:
-        is_upload = False
         with open(os.path.join("data", filename), 'r') as f:
             file_content = f.read()
             urls = file_content.split('\n')
@@ -97,6 +86,29 @@ def get_result():
                     goods.append(urls[i])
                 else:
                     bads.append(urls[i])
+
+        return 'true'
+
+@app.route('/get_data')
+def get_data():
+    data = {"good url":0,"bad url":0}
+    if goods or bads:
+        for item in goods:
+            dict = data_count(item)
+            for key in dict[0]:
+                data["good url"] += dict[0].get(key,"default_value")
+        for item in bads:
+            dict = data_count(item)
+            for key in dict[0]:
+                data["bad url"] += dict[0].get(key,"default_value")
+        return data
+    else:
+        return {}
+
+@app.route('/result', methods=['GET'])
+def get_result():
+    global goods
+    global bads
 
     processed_data = {'good': goods, 'bad': bads}
     return jsonify(processed_data)
