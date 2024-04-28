@@ -158,14 +158,15 @@ def getTokens(input):
     return urltoken
 
 def data_count(input):
+    web_url = input.lower()
     dict = [{"@": 0, "eval": 0, "exec": 0, "<": 0, ">": 0, "system": 0, "echo": 0, "script": 0, "javascript": 0, "by": 0,
             "order": 0, "or": 0, "and": 0, "select": 0, "perl": 0, "php": 0, "net": 0, "nc": 0, "on": 0, "sleep": 0,
             "svg": 0, "alert": 0, "union": 0, "group": 0},{"/":0,"?":0,"&":0,"<br/>":0,"&amp;":0,".":0,"-":0,"_":0},0]
     for i in range(2):
         for key in dict[i]:
-            dict[i][key] = input.count(key)
+            dict[i][key] = web_url.count(key)
 
-    dict[2] = len(input)
+    dict[2] = len(web_url)
     return dict
 
 # print(data_count("1476510729.xiazaidown.com/cx/160624/6/hplaserjet1020@151_974<br/>.exe"))

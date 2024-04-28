@@ -3,6 +3,7 @@ from DataUtils import *
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
+import random
 
 app = Flask(__name__)
 CORS(app)
@@ -89,8 +90,10 @@ def upload_file():
 
         return 'true'
 
-@app.route('/get_data')
-def get_data():
+@app.route('/get_MinganData')
+def get_MinganData():
+    global goods
+    global bads
     data = {"good url":0,"bad url":0}
     if goods or bads:
         for item in goods:
@@ -104,6 +107,38 @@ def get_data():
         return data
     else:
         return {}
+
+@app.route('/get_url_length')
+def get_url_length():
+    data = {}
+    for i in range(1, 21):
+        # 随机生成恶意URL和良性URL的频率
+        malicious_freq = random.randint(1, 100)
+        benign_freq = random.randint(1, 100)
+        data[i] = {"malicious": malicious_freq, "benign": benign_freq}
+    return jsonify(data)
+
+@app.route('/get_goodUrl_data')
+def get_goodUrl_data():
+    global goods
+    dict = {"/":0,"?":0,"&":0,"<br/>":0,"&amp;":0,".":0,"-":0,"_":0}
+    if goods:
+        for item in goods:
+            d = data_count(item)
+            for key in d[1]:
+                dict[key] += d[1].get(key,"default_value")
+    return jsonify(dict)
+
+@app.route('/get_badUrl_data')
+def get_badUrl_data():
+    global bads
+    dict = {"/":0,"?":0,"&":0,"<br/>":0,"&amp;":0,".":0,"-":0,"_":0}
+    if bads:
+        for item in bads:
+            d = data_count(item)
+            for key in d[1]:
+                dict[key] += d[1].get(key,"default_value")
+    return jsonify(dict)
 
 @app.route('/result', methods=['GET'])
 def get_result():

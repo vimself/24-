@@ -36,7 +36,10 @@
 				  </nav>
 
         <div id="app">
+            <div id="chart1" style="width: 600px; height: 400px;"></div>
             <div id="chart2" style="width: 600px; height: 400px;"></div>
+            <div id="chart3" style="width: 600px; height: 400px;"></div>
+            <div id="chart4" style="width: 600px; height: 400px;"></div>
 
 
         </div>
@@ -46,24 +49,81 @@
             new Vue({
                 el: '#app',
                 data: {
-                    chartData: {}
+                    MinganData: {},
+                    Url_length: {},
+                    GoodUrlData: {},
+                    BadUrlData: {}
                 },
                 created() {
-                    this.getData();
+                    this.get_url_length();
+                    this.get_MinganData();
+                    this.get_goodUrl_data();
+                    this.get_badUrl_data();
                 },
                 methods: {
-                    getData() {
-                        fetch('/get_data')
+                    get_url_length(){
+                        fetch('/get_url_length')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.Url_length = data;
+                            this.drawUrlLengthChart();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    },
+                    drawUrlLengthChart() {
+                        let chart = echarts.init(document.getElementById('chart1'));
+                        let options = {
+                            title: {
+                                text: '恶意/良性URL长度分布'
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross'
+                                }
+                            },
+                            legend: {
+                                data: ['恶意', '良性']
+                            },
+                            xAxis: {
+                                type: 'category',
+                                name: 'url长度',
+                                boundaryGap: false,
+                                data: Object.keys(this.Url_length)
+                            },
+                            yAxis: {
+                                type: 'value',
+                                name: '频率'
+                            },
+                            series: [
+                                {
+                                    name: '恶意',
+                                    type: 'line',
+                                    data: Object.values(this.Url_length).map(item => item.malicious)
+                                },
+                                {
+                                    name: '良性',
+                                    type: 'line',
+                                    data: Object.values(this.Url_length).map(item => item.benign)
+                                }
+                            ]
+                        };
+                        chart.setOption(options);
+                    },
+                    get_MinganData() {
+                        fetch('/get_MinganData')
                             .then(response => response.json())
                             .then(data => {
-                                this.chartData = data;
-                                this.drawChart();
+                                this.MinganData = data;
+                                this.drawMinganChart();
                             })
                             .catch(error => {
                                 console.error('Error:', error);
                             });
                     },
-                    drawChart() {
+                    drawMinganChart() {
                         let chart = echarts.init(document.getElementById('chart2'));
                         let options = {
                             title: {
@@ -71,13 +131,82 @@
                             },
                             tooltip: {},
                             xAxis: {
-                                data: Object.keys(this.chartData)
+                                data: Object.keys(this.MinganData),
+                                name: 'url类别'
                             },
-                            yAxis: {},
+                            yAxis: {
+                                name: '敏感词出现次数'
+                            },
                             series: [{
                                 name: '出现次数',
                                 type: 'bar',
-                                data: Object.values(this.chartData)
+                                data: Object.values(this.MinganData)
+                            }]
+                        };
+                        chart.setOption(options);
+                    },
+                    get_goodUrl_data() {
+                        fetch('/get_goodUrl_data')
+                            .then(response => response.json())
+                            .then(data => {
+                                this.GoodUrlData = data;
+                                this.drawGoodUrlChart();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    },
+                    drawGoodUrlChart() {
+                        let chart = echarts.init(document.getElementById('chart3'));
+                        let options = {
+                            title: {
+                                text: 'good url字符分布数量'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                name: '符号',
+                                data: Object.keys(this.GoodUrlData)
+                            },
+                            yAxis: {
+                                type: 'value',
+                                name: '出现次数'
+                            },
+                            series: [{
+                                data: Object.values(this.GoodUrlData),
+                                type: 'bar'
+                            }]
+                        };
+                        chart.setOption(options);
+                    },
+                    get_badUrl_data() {
+                        fetch('/get_badUrl_data')
+                            .then(response => response.json())
+                            .then(data => {
+                                this.BadUrlData = data;
+                                this.drawBadUrlChart();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    },
+                    drawBadUrlChart() {
+                        let chart = echarts.init(document.getElementById('chart4'));
+                        let options = {
+                            title: {
+                                text: 'bad url字符分布数量'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                name: '符号',
+                                data: Object.keys(this.BadUrlData)
+                            },
+                            yAxis: {
+                                type: 'value',
+                                name: '出现次数'
+                            },
+                            series: [{
+                                data: Object.values(this.BadUrlData),
+                                type: 'bar'
                             }]
                         };
                         chart.setOption(options);
