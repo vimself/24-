@@ -32,6 +32,10 @@ def submit_form():
 
     global goods
     global bads
+    if goods:
+        goods = []
+    if bads:
+        bads = []
 
     for i in range(0,len(urls),1):
         X_predict = [urls[i]]
@@ -55,6 +59,12 @@ def submit_form():
 def upload_file():
     global filename
     global is_upload
+    global goods
+    global bads
+    if goods:
+        goods = []
+    if bads:
+        bads = []
     if 'file' not in request.files:
         return 'false'
     file = request.files['file']
