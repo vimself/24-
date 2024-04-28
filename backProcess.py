@@ -148,6 +148,30 @@ def get_result():
     processed_data = {'good': goods, 'bad': bads}
     return jsonify(processed_data)
 
+@app.route('/getData_bad_to_good')
+def getData_bad_to_good():
+    global goods
+    global bads
+    data = {"good": 0, "bad": 0}
+    data["good"] = len(goods)
+    data["bad"] = len(bads)
+    return jsonify(data)
+
+@app.route('/getData_bad_to_bad')
+def getData_bad_to_bad():
+    global bads
+    data = {"badest": 0, "bad": 0}
+    for item in bads:
+        data["bad"] += 1
+        dict = data_count(item)
+        for key in dict[0]:
+            if dict[0].get(key) != 0:
+                data["badest"] += 1
+                data["bad"] -= 1
+                break
+
+    return jsonify(data)
+
 # 定义根路由，提供index.html页面
 @app.route('/')
 def index():

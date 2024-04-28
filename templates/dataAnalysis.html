@@ -1,264 +1,322 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.js"></script>
-		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-		<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
-		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-		<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
-		<script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>  </head>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
+</head>
 
-	</head>
-	<body>
-		<!-- 顶部导航栏 -->
-				  <nav class="navbar navbar-default">
-				    <div class="container-fluid">
-				      <div class="navbar-header">
-				        <a class="navbar-brand" href="#" style="font-size: x-large">在线恶意URL检测系统</a>
-				      </div>
-				      <div class="collapse navbar-collapse" id="myNavbar">
-				        <ul class="nav navbar-nav navbar-right">
-				          <li style="margin-right: 20px;"><a href="index.html">主页</a></li>
-				          <li style="margin-right: 20px;"><a href="getData.html">数据提取模块</a></li>
-				          <li style="margin-right: 20px;" class="active"><a href="dataAnalysis.html">数据分析模块</a></li>
-				          <li style="margin-right: 20px;"><a href="dataOutput.html">结果输出模块</a></li>
-				          <li style="margin-right: 20px;"><a href="modelAnalysis.html">模型数据分析</a></li>
-				          <li style="margin-right: 20px;"><a href="contact.html">联系我</a></li>
-				        </ul>
-				      </div>
-				    </div>
-				  </nav>
-
-        <div id="app">
-            <div id="chart1" style="width: 600px; height: 400px;"></div>
-            <div id="chart2" style="width: 600px; height: 400px;"></div>
-            <div id="chart3" style="width: 600px; height: 400px;"></div>
-            <div id="chart4" style="width: 600px; height: 400px;"></div>
-
-
+</head>
+<body>
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#" style="font-size: x-large">在线恶意URL检测系统</a>
         </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin-right: 20px;"><a href="index.html">主页</a></li>
+                <li style="margin-right: 20px;"><a href="getData.html">数据提取模块</a></li>
+                <li style="margin-right: 20px;" class="active"><a href="dataAnalysis.html">数据分析模块</a></li>
+                <li style="margin-right: 20px;"><a href="dataOutput.html">结果输出模块</a></li>
+                <li style="margin-right: 20px;"><a href="modelAnalysis.html">模型数据分析</a></li>
+                <li style="margin-right: 20px;"><a href="contact.html">联系我</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="app">
+
+    <div class="container">
+        <div class="row gx-8 gy-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div id="chart1" style="width: 600px; height: 400px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div id="chart2" style="width: 600px; height: 400px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div id="chart3" style="width: 600px; height: 400px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div id="chart4" style="width: 600px; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-        <script>
-            new Vue({
-                el: '#app',
-                data: {
-                    MinganData: {},
-                    Url_length: {},
-                    GoodUrlData: {},
-                    BadUrlData: {}
-                },
-                created() {
-                    this.get_url_length();
-                    this.get_MinganData();
-                    this.get_goodUrl_data();
-                    this.get_badUrl_data();
-                },
-                methods: {
-                    get_url_length(){
-                        fetch('/get_url_length')
-                        .then(response => response.json())
-                        .then(data => {
-                            this.Url_length = data;
-                            this.drawUrlLengthChart();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+
+</div>
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            MinganData: {},
+            Url_length: {},
+            GoodUrlData: {},
+            BadUrlData: {}
+        },
+        created() {
+            this.get_url_length();
+            this.get_MinganData();
+            this.get_goodUrl_data();
+            this.get_badUrl_data();
+        },
+        methods: {
+            get_url_length() {
+                fetch('/get_url_length')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.Url_length = data;
+                        this.drawUrlLengthChart();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            },
+            drawUrlLengthChart() {
+                let chart = echarts.init(document.getElementById('chart1'));
+                let options = {
+                    title: {
+                        text: '恶意/良性URL长度分布'
                     },
-                    drawUrlLengthChart() {
-                        let chart = echarts.init(document.getElementById('chart1'));
-                        let options = {
-                            title: {
-                                text: '恶意/良性URL长度分布'
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    legend: {
+                        data: ['恶意', '良性']
+                    },
+                    xAxis: {
+                        type: 'category',
+                        name: 'url长度',
+                        boundaryGap: false,
+                        data: Object.keys(this.Url_length)
+                    },
+                    yAxis: {
+                        type: 'value',
+                        name: '频率'
+                    },
+                    series: [
+                        {
+                            name: '恶意',
+                            type: 'line',
+                            itemStyle: {
+                                color: 'rgb(244,121,131)'
                             },
-                            tooltip: {
-                                trigger: 'axis',
-                                axisPointer: {
-                                    type: 'cross'
+                            data: Object.values(this.Url_length).map(item => item.malicious)
+                        },
+                        {
+                            name: '良性',
+                            type: 'line',
+                            itemStyle: {
+                                color: 'rgb(188,214,141)'
+                            },
+                            data: Object.values(this.Url_length).map(item => item.benign)
+                        }
+                    ]
+                };
+                chart.setOption(options);
+            },
+            get_MinganData() {
+                fetch('/get_MinganData')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.MinganData = data;
+                        this.drawMinganChart();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            },
+            drawMinganChart() {
+                let chart = echarts.init(document.getElementById('chart2'));
+                let options = {
+                    title: {
+                        text: '高危敏感词出现次数对比图'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                        data: Object.keys(this.MinganData),
+                        name: 'url类别'
+                    },
+                    yAxis: {
+                        name: '敏感词出现次数'
+                    },
+                    series: [{
+                        name: '出现次数',
+                        type: 'bar',
+                        itemStyle: {
+                            color: function(params) {
+                                // 根据索引判断是哪个柱子，设置不同的颜色
+                                if (params.dataIndex === 0) {
+                                    return 'rgb(244,121,131)'; // 第一个柱子为绿色
+                                } else if (params.dataIndex === 1) {
+                                    return 'rgb(188,214,141)'; // 第二个柱子为红色
                                 }
-                            },
-                            legend: {
-                                data: ['恶意', '良性']
-                            },
-                            xAxis: {
-                                type: 'category',
-                                name: 'url长度',
-                                boundaryGap: false,
-                                data: Object.keys(this.Url_length)
-                            },
-                            yAxis: {
-                                type: 'value',
-                                name: '频率'
-                            },
-                            series: [
-                                {
-                                    name: '恶意',
-                                    type: 'line',
-                                    data: Object.values(this.Url_length).map(item => item.malicious)
-                                },
-                                {
-                                    name: '良性',
-                                    type: 'line',
-                                    data: Object.values(this.Url_length).map(item => item.benign)
-                                }
-                            ]
-                        };
-                        chart.setOption(options);
+                            }
+                        },
+                        data: Object.values(this.MinganData)
+                    }]
+                };
+                chart.setOption(options);
+            },
+            get_goodUrl_data() {
+                fetch('/get_goodUrl_data')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.GoodUrlData = data;
+                        this.drawGoodUrlChart();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            },
+            drawGoodUrlChart() {
+                let chart = echarts.init(document.getElementById('chart3'));
+                let options = {
+                    title: {
+                        text: 'good url字符分布数量'
                     },
-                    get_MinganData() {
-                        fetch('/get_MinganData')
-                            .then(response => response.json())
-                            .then(data => {
-                                this.MinganData = data;
-                                this.drawMinganChart();
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
+                    xAxis: {
+                        type: 'category',
+                        name: '符号',
+                        data: Object.keys(this.GoodUrlData)
                     },
-                    drawMinganChart() {
-                        let chart = echarts.init(document.getElementById('chart2'));
-                        let options = {
-                            title: {
-                                text: '高危敏感词出现次数对比图'
-                            },
-                            tooltip: {},
-                            xAxis: {
-                                data: Object.keys(this.MinganData),
-                                name: 'url类别'
-                            },
-                            yAxis: {
-                                name: '敏感词出现次数'
-                            },
-                            series: [{
-                                name: '出现次数',
-                                type: 'bar',
-                                data: Object.values(this.MinganData)
-                            }]
-                        };
-                        chart.setOption(options);
+                    yAxis: {
+                        type: 'value',
+                        name: '出现次数'
                     },
-                    get_goodUrl_data() {
-                        fetch('/get_goodUrl_data')
-                            .then(response => response.json())
-                            .then(data => {
-                                this.GoodUrlData = data;
-                                this.drawGoodUrlChart();
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
+                    series: [{
+                        data: Object.values(this.GoodUrlData),
+                        itemStyle: {
+                            color: 'rgb(188,214,141)'
+                        },
+                        type: 'bar'
+                    }]
+                };
+                chart.setOption(options);
+            },
+            get_badUrl_data() {
+                fetch('/get_badUrl_data')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.BadUrlData = data;
+                        this.drawBadUrlChart();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            },
+            drawBadUrlChart() {
+                let chart = echarts.init(document.getElementById('chart4'));
+                let options = {
+                    title: {
+                        text: 'bad url字符分布数量'
                     },
-                    drawGoodUrlChart() {
-                        let chart = echarts.init(document.getElementById('chart3'));
-                        let options = {
-                            title: {
-                                text: 'good url字符分布数量'
-                            },
-                            xAxis: {
-                                type: 'category',
-                                name: '符号',
-                                data: Object.keys(this.GoodUrlData)
-                            },
-                            yAxis: {
-                                type: 'value',
-                                name: '出现次数'
-                            },
-                            series: [{
-                                data: Object.values(this.GoodUrlData),
-                                type: 'bar'
-                            }]
-                        };
-                        chart.setOption(options);
+                    xAxis: {
+                        type: 'category',
+                        name: '符号',
+                        data: Object.keys(this.BadUrlData)
                     },
-                    get_badUrl_data() {
-                        fetch('/get_badUrl_data')
-                            .then(response => response.json())
-                            .then(data => {
-                                this.BadUrlData = data;
-                                this.drawBadUrlChart();
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
+                    yAxis: {
+                        type: 'value',
+                        name: '出现次数'
                     },
-                    drawBadUrlChart() {
-                        let chart = echarts.init(document.getElementById('chart4'));
-                        let options = {
-                            title: {
-                                text: 'bad url字符分布数量'
-                            },
-                            xAxis: {
-                                type: 'category',
-                                name: '符号',
-                                data: Object.keys(this.BadUrlData)
-                            },
-                            yAxis: {
-                                type: 'value',
-                                name: '出现次数'
-                            },
-                            series: [{
-                                data: Object.values(this.BadUrlData),
-                                type: 'bar'
-                            }]
-                        };
-                        chart.setOption(options);
-                    }
-                }
-            });
-        </script>
-	</body>
-	
-	<style>
-		       body {
-		         background-color: #f8f8f8;
-		         font-family: Arial, sans-serif;
-		       }
-		       .navbar {
-		         border-radius: 0;
-		         background-color: #55aaff;
-		         border: none;
-		       }
-		       .navbar-brand {
-		         color: #fc5531;
-		         font-weight: bold;
-		       }
-		       .navbar-nav > li > a {
-		         color: #fff;
-		       }
-		       .form-container {
-		         background-color: #fff;
-		         border-radius: 5px;
-		         box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-		         padding: 20px;
-		         margin-top: 50px;
-		       }
-		       .form-container h2 {
-		         color: #333;
-		         text-align: center;
-		         margin-bottom: 30px;
-		       }
-		       .form-group {
-		         margin-bottom: 20px;
-		       }
-		       .form-control {
-		         border-radius: 5px;
-		       }
-		       .btn-primary {
-		         background-color: #55aaff;
-		         border: none;
-		         border-radius: 5px;
-		         width: 100%;
-		       }
-		       .btn-primary:hover {
-		         background-color: #286090;
-		       }
-		     </style>
+                    series: [{
+                        data: Object.values(this.BadUrlData),
+                        itemStyle: {
+                            color: 'rgb(244,121,131)'
+                        },
+                        type: 'bar'
+                    }]
+                };
+                chart.setOption(options);
+            }
+        }
+    });
+</script>
+</body>
+
+<style>
+    body {
+        background-color: #f8f8f8;
+        font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+        border-radius: 0;
+        background-color: #55aaff;
+        border: none;
+    }
+
+    .navbar-brand {
+        color: #fc5531;
+        font-weight: bold;
+    }
+
+    .navbar-nav > li > a {
+        color: #fff;
+    }
+
+    .form-container {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 50px;
+    }
+
+    .form-container h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #55aaff;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        background-color: #286090;
+    }
+</style>
 </html>

@@ -1,120 +1,304 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.js"></script>
-		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-		<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
-		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-		<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
-		<script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
-	</head>
-	<body>
-		<!-- 顶部导航栏 -->
-				  <nav class="navbar navbar-default">
-				    <div class="container-fluid">
-				      <div class="navbar-header">
-				        <a class="navbar-brand" href="#" style="font-size: x-large">在线恶意URL检测系统</a>
-				      </div>
-				      <div class="collapse navbar-collapse" id="myNavbar">
-				        <ul class="nav navbar-nav navbar-right">
-				          <li style="margin-right: 20px;"><a href="index.html">主页</a></li>
-				          <li style="margin-right: 20px;"><a href="getData.html">数据提取模块</a></li>
-				          <li style="margin-right: 20px;"><a href="dataAnalysis.html">数据分析模块</a></li>
-				          <li style="margin-right: 20px;" class="active"><a href="dataOutput.html">结果输出模块</a></li>
-				          <li style="margin-right: 20px;"><a href="modelAnalysis.html">模型数据分析</a></li>
-				          <li style="margin-right: 20px;"><a href="contact.html">联系我</a></li>
-				        </ul>
-				      </div>
-				    </div>
-				  </nav>
-				  
-				  
-				  
-				  <div class="container">
-				    <div class="row">
-				      <div class="col-md-12 col-md-offset-0">
-				        <div class="form-container">
-				          <h2>检测URL结果</h2>
-				            <div id="app" style="font-family: Consolas">
-				                <div v-if="processedData">
-				                    <h4 v-if="processedData.good">Good URLs:<li v-for="item in processedData.good" :key="item"><span v-text="item"></span></li></h4>
-				                    <h4 v-if="processedData.bad">Bad URLs:<li v-for="item in processedData.bad" :key="item"><span v-text="item"></span></li></h4>
-				                </div>
-				            </div>
-				        </div>
-				      </div>
-				    </div>
-				  </div>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css"
+          integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.js"></script>
+</head>
+<body>
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#" style="font-size: x-large">在线恶意URL检测系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin-right: 20px;"><a href="index.html">主页</a></li>
+                <li style="margin-right: 20px;"><a href="getData.html">数据提取模块</a></li>
+                <li style="margin-right: 20px;"><a href="dataAnalysis.html">数据分析模块</a></li>
+                <li style="margin-right: 20px;" class="active"><a href="dataOutput.html">结果输出模块</a></li>
+                <li style="margin-right: 20px;"><a href="modelAnalysis.html">模型数据分析</a></li>
+                <li style="margin-right: 20px;"><a href="contact.html">联系我</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <script>
-        new Vue({
-            el: '#app',
-            data: {
-                processedData: null
-            },
-            created() {
-                // 在页面加载时从后端获取数据
-                this.$http.get('/result')
-                    .then(response => {
-                        this.processedData = response.body;
+<div id="app">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- 左上区域 -->
+                <div class="card">
+                    <div id="chart1" style="width: 500px; height: 300px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- 右上区域 -->
+                <div class="card">
+                    <div id="chart2" style="width: 500px; height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-16">
+                <!-- 下半部分 -->
+                <div class="text-white p-3">
+                    <div class="container">
+        <div class="row">
+            <div class="col-md-16 col-md-offset-0">
+                <div class="form-container">
+                    <h2>检测URL结果</h2>
+                    <div style="font-family: Consolas">
+                        <div v-if="processedData">
+                            <h4 v-if="processedData.good">Good URLs:
+                                <li v-for="item in processedData.good" :key="item"><span v-text="item"></span></li>
+                            </h4>
+                            <h4 v-if="processedData.bad">Bad URLs:
+                                <li v-for="item in processedData.bad" :key="item"><span v-text="item"></span></li>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            processedData: null
+        },
+        created() {
+            // 在页面加载时从后端获取数据
+            this.$http.get('/result')
+                .then(response => {
+                    this.processedData = response.body;
+                })
+                .catch(error => {
+                    console.error('Error fetching result:', error);
+                });
+            this.getData_bad_to_good();
+            this.getData_bad_to_bad();
+        },
+        methods: {
+            // 获取数据并绘制饼状图的方法
+            getData_bad_to_good() {
+                // 发送请求获取数据
+                fetch('/getData_bad_to_good')
+                    .then(response => response.json())
+                    .then(data => {
+                        // 调用绘制饼状图的方法
+                        this.drawPieChart_bad_to_good(data);
                     })
                     .catch(error => {
-                        console.error('Error fetching result:', error);
+                        console.error('Error fetching data:', error);
                     });
-            }
-        });
-    </script>
+            },
+            // 绘制饼状图的方法
+            drawPieChart_bad_to_good(data) {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('chart1'));
 
-	</body>
-	
-	<style>
-		       body {
-		         background-color: #f8f8f8;
-		         font-family: Arial, sans-serif;
-		       }
-		       .navbar {
-		         border-radius: 0;
-		         background-color: #55aaff;
-		         border: none;
-		       }
-		       .navbar-brand {
-		         color: #fc5531;
-		         font-weight: bold;
-		       }
-		       .navbar-nav > li > a {
-		         color: #fff;
-		       }
-		       .form-container {
-		         background-color: #fff;
-		         border-radius: 5px;
-		         box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-		         padding: 20px;
-		         margin-top: 50px;
-		       }
-		       .form-container h2 {
-		         color: #333;
-		         text-align: center;
-		         margin-bottom: 30px;
-		       }
-		       .form-group {
-		         margin-bottom: 20px;
-		       }
-		       .form-control {
-		         border-radius: 5px;
-		       }
-		       .btn-primary {
-		         background-color: #55aaff;
-		         border: none;
-		         border-radius: 5px;
-		         width: 100%;
-		       }
-		       .btn-primary:hover {
-		         background-color: #286090;
-		       }
-		     </style>
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '恶意url比例'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                    },
+                    series: [
+                        {
+                            name: '检测结果',
+                            type: 'pie',
+                            radius: ['35%', '60%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '15',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: [
+                                {
+                                    value: data.good,
+                                    name: '正常url',
+                                    itemStyle: {
+                                        color: 'rgb(188,214,141)' // 设置颜色为绿色
+                                    }
+                                },
+                                {
+                                    value: data.bad,
+                                    name: '恶意url',
+                                    itemStyle: {
+                                        color: 'rgb(244,121,131)'
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表
+                myChart.setOption(option);
+            },
+            getData_bad_to_bad() {
+                // 发送请求获取数据
+                fetch('/getData_bad_to_bad')
+                    .then(response => response.json())
+                    .then(data => {
+                        // 调用绘制饼状图的方法
+                        this.drawPieChart_bad_to_bad(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            },
+            // 绘制饼状图的方法
+            drawPieChart_bad_to_bad(data) {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('chart2'));
+
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '高危url比例'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                    },
+                    series: [
+                        {
+                            name: '检测结果',
+                            type: 'pie',
+                            radius: ['35%', '60%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '15',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: [
+                                {
+                                    value: data.badest,
+                                    name: '高危恶意url',
+                                    itemStyle: {
+                                        color: '#cb3a56'
+                                    }
+                                },
+                                {
+                                    value: data.bad,
+                                    name: '恶意url',
+                                    itemStyle: {
+                                        color: 'rgb(244,121,131)'
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表
+                myChart.setOption(option);
+            }
+        }
+    });
+</script>
+
+</body>
+
+<style>
+    body {
+        background-color: #f8f8f8;
+        font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+        border-radius: 0;
+        background-color: #55aaff;
+        border: none;
+    }
+
+    .navbar-brand {
+        color: #fc5531;
+        font-weight: bold;
+    }
+
+    .navbar-nav > li > a {
+        color: #fff;
+    }
+
+    .form-container {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 50px;
+    }
+
+    .form-container h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #55aaff;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        background-color: #286090;
+    }
+</style>
 </html>
