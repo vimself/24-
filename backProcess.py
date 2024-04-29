@@ -28,7 +28,7 @@ def submit_form():
     # 获取前端传来的urls参数
     data = request.json
     message = data.get('urls', [])
-    print(message)
+    # print(message)
     string = str(message[0])
     urls = string.split("\n")
 
@@ -110,13 +110,52 @@ def get_MinganData():
 
 @app.route('/get_url_length')
 def get_url_length():
-    data = {}
-    for i in range(1, 21):
-        # 随机生成恶意URL和良性URL的频率
-        malicious_freq = random.randint(1, 100)
-        benign_freq = random.randint(1, 100)
-        data[i] = {"malicious": malicious_freq, "benign": benign_freq}
-    return jsonify(data)
+    global goods
+    global bads
+    good_data = {}
+    bad_data = {}
+    result = {}
+    if goods:
+        url_length = {}
+        for item in goods:
+            if not url_length.get(len(item)):
+                url_length[len(item)] = 1
+            else:
+                url_length[len(item)] += 1
+        keys = url_length.keys()
+        for key in keys:
+            url_length[key] = round(url_length[key] / len(goods), 3)
+        good_data = url_length
+
+    if bads:
+        url_length = {}
+        for item in bads:
+            if not url_length.get(len(item)):
+                url_length[len(item)] = 1
+            else:
+                url_length[len(item)] += 1
+        keys = url_length.keys()
+        for key in keys:
+            url_length[key] = round(url_length[key] / len(bads), 3)
+        bad_data = url_length
+
+    for key, value in good_data.items():
+        if key in bad_data:
+            result.update({key: {"malicious": bad_data[key], "benign": good_data[key]}})
+        else:
+            result.update({key: {"malicious": 0, "benign": good_data[key]}})
+    for key, value in bad_data.items():
+        if key in good_data:
+            result.update({key: {"malicious": bad_data[key], "benign": good_data[key]}})
+        else:
+            result.update({key: {"malicious": bad_data[key], "benign": 0}})
+
+    # print(goods)
+    # print(bads)
+    # print(good_data)
+    # print(bad_data)
+    # print(result)
+    return jsonify(result)
 
 @app.route('/get_goodUrl_data')
 def get_goodUrl_data():
