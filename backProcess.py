@@ -140,6 +140,19 @@ def get_badUrl_data():
                 dict[key] += d[1].get(key,"default_value")
     return jsonify(dict)
 
+@app.route('/get_badWord_data')
+def get_badWord_data():
+    dict = {"@": 0, "eval": 0, "exec": 0, "<": 0, ">": 0, "system": 0, "echo": 0, "script": 0, "javascript": 0,
+             "order": 0, "select": 0, "perl": 0, "php": 0, "sleep": 0, "alert": 0, "union": 0, "group": 0}
+    global bads
+    if bads:
+        for item in bads:
+            d = data_count(item)
+            for key in d[0]:
+                dict[key] += d[0].get(key, "default_value")
+    return jsonify(dict)
+
+
 @app.route('/result', methods=['GET'])
 def get_result():
     global goods

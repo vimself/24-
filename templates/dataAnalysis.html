@@ -64,6 +64,11 @@
                     <div id="chart4" style="width: 600px; height: 400px;"></div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div id="chart5" style="width: 1200px; height: 400px;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -79,13 +84,15 @@
             MinganData: {},
             Url_length: {},
             GoodUrlData: {},
-            BadUrlData: {}
+            BadUrlData: {},
+            badWordData: {}
         },
         created() {
             this.get_url_length();
             this.get_MinganData();
             this.get_goodUrl_data();
             this.get_badUrl_data();
+            this.get_badWord_data();
         },
         methods: {
             get_url_length() {
@@ -259,6 +266,42 @@
                     }]
                 };
                 chart.setOption(options);
+            },
+            get_badWord_data() {
+                fetch('/get_badWord_data')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.badWordData = data;
+                        this.drawBadWordChart();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            },
+            drawBadWordChart() {
+                let chart = echarts.init(document.getElementById('chart5'));
+                let options = {
+                    title: {
+                        text: '敏感词汇分布数量'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        name: '词汇',
+                        data: Object.keys(this.badWordData)
+                    },
+                    yAxis: {
+                        type: 'value',
+                        name: '出现次数'
+                    },
+                    series: [{
+                        data: Object.values(this.badWordData),
+                        itemStyle: {
+                            color: '#cb3a56'
+                        },
+                        type: 'bar'
+                    }]
+                };
+                chart.setOption(options);
             }
         }
     });
@@ -286,33 +329,10 @@
         color: #fff;
     }
 
-    .form-container {
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 50px;
-    }
-
     .form-container h2 {
         color: #333;
         text-align: center;
         margin-bottom: 30px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-control {
-        border-radius: 5px;
-    }
-
-    .btn-primary {
-        background-color: #55aaff;
-        border: none;
-        border-radius: 5px;
-        width: 100%;
     }
 
     .btn-primary:hover {
