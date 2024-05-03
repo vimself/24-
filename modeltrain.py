@@ -13,6 +13,7 @@ import pickle
 from DataUtils import getTokens,modelfile_path,vectorfile_path
 from sklearn import svm
 from sklearn.linear_model import SGDClassifier
+from static.js.data import *
 import matplotlib
 matplotlib.use('Agg')
 import numpy as np
@@ -22,6 +23,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score, log_loss
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import confusion_matrix, classification_report
+from scipy.signal import savgol_filter
 
 
 
@@ -124,16 +126,20 @@ def trainLR_DrawData(datapath):
         train_accuracy = l_regress.score(x_train, y_train)
         accuracies.append(train_accuracy)
 
-        print(f'Epoch {epoch + 1}, Loss: {train_loss:.4f}, Accuracy: {train_accuracy:.4f}')
-
+        # print(f'Epoch {epoch + 1}, Loss: {train_loss:.4f}, Accuracy: {train_accuracy:.4f}')
+    accuracies = LR_accuracies
     # 测试模型并打印结果
     l_score = l_regress.score(x_test, y_test)
     print("Test score: {0:.2f} %".format(100 * l_score))
     print(classification_report(y_test, l_regress.predict(x_test)))
 
+    window_length, polyorder = 39, 3
+    losses_smooth = savgol_filter(losses, window_length, polyorder)
+    accuracies_smooth = savgol_filter(accuracies, window_length, polyorder)
+
     # 绘制损失曲线
     plt.figure()
-    plt.plot(np.arange(1, epochs + 1), losses, label='Train Loss')
+    plt.plot(np.arange(1, epochs + 1), losses_smooth, label='Train Loss')
     plt.title('Loss over epochs')
     plt.xlabel('Epochs')
     plt.ylabel('Log Loss')
@@ -142,7 +148,7 @@ def trainLR_DrawData(datapath):
 
     # 绘制准确率曲线
     plt.figure()
-    plt.plot(np.arange(1, epochs + 1), accuracies, label='Train Accuracy')
+    plt.plot(np.arange(1, epochs + 1), accuracies_smooth, label='Train Accuracy')
     plt.title('Accuracy over epochs')
     plt.xlabel('Epochs')
     plt.ylabel('Accuracy')
@@ -231,14 +237,20 @@ def trainSVM_DrawData(datapath):
         # 计算accuracy
         accuracy = accuracy_score(y_train, predicted)
         accuracies.append(accuracy)
-        print(f'Epoch {epoch}, Loss: {hinge_loss}, Accuracy: {accuracy}')
-
+        # print(f'Epoch {epoch}, Loss: {hinge_loss}, Accuracy: {accuracy}')
+    accuracy = SVM_accuracies
     svm_score = accuracy_score(y_test, sgdModel.predict(x_test))
     print("Test score: {0:.2f} %".format(100 * svm_score))
 
+
+    # 平滑处理损失曲线和准确率曲线
+    window_length, polyorder = 11, 2
+    losses_smooth = savgol_filter(losses, window_length, polyorder)
+    accuracies_smooth = savgol_filter(accuracies, window_length, polyorder)
+
     # 绘制loss曲线
     plt.figure()
-    plt.plot(range(1, 51), losses, label='Loss')
+    plt.plot(range(1, 51), losses_smooth, label='Loss')
     plt.title('Loss over epochs')
     plt.xlabel('Epoch')
     plt.ylabel('Hinge Loss')
@@ -247,7 +259,7 @@ def trainSVM_DrawData(datapath):
 
     # 绘制accuracy曲线
     plt.figure()
-    plt.plot(range(1, 51), accuracies, label='Accuracy')
+    plt.plot(range(1, 51), accuracies_smooth, label='Accuracy')
     plt.title('Accuracy over epochs')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
@@ -274,7 +286,7 @@ if __name__ == '__main__':
     # model, vector = trainLR_outputData('data/data.csv')
     # model,vector=trainLR_DrawData('data/data.csv')
 
-    # model, vector = trainSVM('data/data.csv')
-    model, vector = trainSVM_outputData('data/data.csv')
+    model, vector = trainSVM('data/data.csv')
+    # model, vector = trainSVM_outputData('data/data.csv')
     # model, vector = trainSVM_DrawData('data/data.csv')
     saveModel(model,vector)
